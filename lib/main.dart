@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:watch_with_me/pages/splash_screen.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
   runApp(const MainApp());
@@ -10,9 +11,11 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: SplashScreen()
+    return const ProviderScope(
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: SplashScreen()
+      ),
     );
   }
 }
