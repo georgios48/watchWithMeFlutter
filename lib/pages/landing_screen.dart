@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:watch_with_me/pages/login_page.dart';
+import 'package:watch_with_me/pages/register_screen.dart';
 
 class LandingScreen extends StatefulWidget {
   const LandingScreen({super.key});
@@ -73,7 +75,7 @@ class _LandingScreenState extends State<LandingScreen> {
 
             Padding(padding: const EdgeInsets.fromLTRB(36, 0, 36, 0),
             child: TextButton(onPressed: () {
-              // take you to the login screen
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginScreen()));
             }, 
             style: ButtonStyle(backgroundColor: MaterialStateProperty.all(const Color(0xFF26243C))),
             child: const Row(
@@ -100,6 +102,7 @@ class _LandingScreenState extends State<LandingScreen> {
               TextButton(
                 onPressed: () {
                   // take you to register page
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const RegisterScreen()));
                 },
                   child: const Text(
                 'Sign Up!',
