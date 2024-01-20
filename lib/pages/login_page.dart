@@ -189,14 +189,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     )),
 
-                const SizedBox(width: 16),
+                const SizedBox(width: 20),
 
                 TextButton.icon(
                   style: const ButtonStyle(backgroundColor: MaterialStatePropertyAll(Color(0xFFDF862D))),
                   onPressed:() {},
                   icon: const FaIcon(FontAwesomeIcons.google, color: Colors.white,),
                   label: const Text(
-                    "Facebook",
+                    "Google",
                     style: TextStyle(
                       fontFamily: 'Montserrat',
                       fontWeight: FontWeight.bold,
