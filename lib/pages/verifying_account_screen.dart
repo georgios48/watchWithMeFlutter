@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:watch_with_me/utils/constants.dart';
 
 class VerifyingAccount extends StatefulWidget {
   const VerifyingAccount({super.key});
@@ -11,103 +12,100 @@ class VerifyingAccount extends StatefulWidget {
 class _VerifyingAccountState extends State<VerifyingAccount> {
   @override
   Widget build(BuildContext context) {
+    // UI screen size
+    Size size = MediaQuery.of(context).size;
+
+    double deviceWidth = size.width;
+    double deviceHeight = size.height;
+
     return Scaffold(
-      body: Container(
-        padding: const EdgeInsets.fromLTRB(36, 0, 36, 0),
-        height: double.infinity,
-        width: double.infinity,
-        color:const Color(0xFF26243C),
+      backgroundColor: bluePrimary,
+      body: SafeArea(
         child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 72),
-              
-              const Text("Verify your",
-              style: TextStyle(
-                fontFamily: 'Chalet',
-                fontSize: 48,
-                color: Color(0xFFDF862D),
-                fontWeight: FontWeight.w300,
-                height: 1.0
-              ),),
-
-              const Text("account",
-              style: TextStyle(
-                height: 1.0,
-                fontFamily: 'Chalet',
-                fontSize: 48,
-                color: Color(0xFFF6F9F8),
-                fontWeight: FontWeight.w300
-              ),),
-
-              const SizedBox(height: 143),
-
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [LoadingAnimationWidget.discreteCircle(
-                  color: const Color(0xFFDF862D),
-                  size: 140,
-                  secondRingColor: const Color(0xFFF6F9F8),
-                  thirdRingColor: const Color(0xFFDF862D)
-                ),
-            ]),
-
-            const SizedBox(height: 12),
-
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 36, vertical: 36),
+            color: bluePrimary,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Waiting...",
-                style: TextStyle(
-                  color: Color(0xFFF6F9F8),
-                  fontSize: 24,
-                  fontWeight: FontWeight.w100,
-                  fontFamily: 'Chalet'
-                ),)
-              ],
-            ),
-
-            const SizedBox(height: 92),
-
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text("We will send you an e-mail to verify your account ",
-                style: TextStyle(
-                  fontFamily: "Montserrat",
-                  fontSize: 12,
-                  color: Color(0xFFF6F9F8),
-                  fontWeight: FontWeight.bold
-                ),),
-              ],
-            ),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text("Didn't receive an email?",
-                style: TextStyle(
-                  fontFamily: "Montserrat",
-                  fontSize: 12,
-                  color: Color(0xFFF6F9F8),
-                  fontWeight: FontWeight.bold
-                ),),
-
-                TextButton(onPressed: () {},
-                 child: const Text(
-                  "Request again",
+                Text(
+                  "Verify your",
                   style: TextStyle(
-                  fontFamily: "Chalet",
-                  fontSize: 13,
-                  color: Color(0xFFF6F9F8),
-                  fontWeight: FontWeight.bold
+                      fontFamily: 'Chalet',
+                      fontSize: deviceWidth * 0.12,
+                      color: orangePrimary,
+                      fontWeight: FontWeight.w300,
+                      height: deviceHeight * 0.001),
                 ),
-                 ))
+                Text(
+                  "account",
+                  style: TextStyle(
+                      height: deviceHeight * 0.001,
+                      fontFamily: 'Chalet',
+                      fontSize: deviceWidth * 0.12,
+                      color: whitePrimary,
+                      fontWeight: FontWeight.w300),
+                ),
+                SizedBox(height: deviceHeight * 0.2),
+                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  LoadingAnimationWidget.discreteCircle(
+                      color: orangePrimary,
+                      size: deviceWidth * 0.35,
+                      secondRingColor: whitePrimary,
+                      thirdRingColor: orangePrimary),
+                ]),
+                SizedBox(height: deviceHeight * 0.01),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Waiting...",
+                      style: TextStyle(
+                          color: whitePrimary,
+                          fontSize: deviceWidth * 0.06,
+                          fontWeight: FontWeight.w100,
+                          fontFamily: 'Chalet'),
+                    )
+                  ],
+                ),
+                SizedBox(height: deviceHeight * 0.1),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "We will send you an e-mail to verify your account ",
+                      style: TextStyle(
+                          fontFamily: "Montserrat",
+                          fontSize: deviceWidth * 0.03,
+                          color: whitePrimary,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Didn't receive an email?",
+                      style: TextStyle(
+                          fontFamily: "Montserrat",
+                          fontSize: deviceWidth * 0.03,
+                          color: whitePrimary,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    TextButton(
+                        onPressed: () {},
+                        child: const Text(
+                          "Request again",
+                          style: TextStyle(
+                              fontFamily: "Chalet",
+                              color: whitePrimary,
+                              fontWeight: FontWeight.bold),
+                        ))
+                  ],
+                )
               ],
-            )
-            ],
+            ),
           ),
         ),
       ),

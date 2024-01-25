@@ -12,10 +12,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const ProviderScope(
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: SplashScreen()
-      ),
-    );
+        child: MaterialApp(
+            debugShowCheckedModeBanner: false, home: SplashScreen()));
   }
 }
