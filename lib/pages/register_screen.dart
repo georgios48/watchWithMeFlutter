@@ -7,7 +7,6 @@ import 'package:watch_with_me/pages/verifying_account_screen.dart';
 import 'package:watch_with_me/servicesAPI/user_service.dart';
 import 'package:watch_with_me/utils/awesome_snackbar.dart';
 import 'package:watch_with_me/utils/constants.dart';
-import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -23,10 +22,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _confirmPasswordController = TextEditingController();
   final _usernameController = TextEditingController();
 
+  final _userService = UserService();
+
   @override
   Widget build(BuildContext context) {
     // user service
-    UserService userService = UserService();
 
     // UI screen size
     Size size = MediaQuery.of(context).size;
@@ -97,6 +97,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   child: TextField(
                     controller: _emailController,
                     decoration: InputDecoration(
+                        errorText: "Required field",
                         filled: true,
                         fillColor: whitePrimary,
                         border: OutlineInputBorder(
@@ -132,6 +133,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     child: TextField(
                       controller: _usernameController,
                       decoration: InputDecoration(
+                          errorText: "Required field",
                           filled: true,
                           fillColor: whitePrimary,
                           border: OutlineInputBorder(
@@ -167,6 +169,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     obscureText: true,
                     controller: _passwordController,
                     decoration: InputDecoration(
+                        errorText: "Required field",
                         filled: true,
                         fillColor: whitePrimary,
                         border: OutlineInputBorder(
@@ -201,6 +204,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     obscureText: true,
                     controller: _confirmPasswordController,
                     decoration: InputDecoration(
+                        errorText: "Required field",
                         filled: true,
                         fillColor: whitePrimary,
                         border: OutlineInputBorder(
@@ -218,7 +222,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 RoundedButton(
                     text: "Sign In",
                     color: orangePrimary,
-                    press: () {
+                    press: () async {
                       RegisterUserRequest object = RegisterUserRequest(
                           username: _usernameController.text,
                           email: _emailController.text,
@@ -226,7 +230,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           confirmPassword: _confirmPasswordController.text);
 
                       try {
-                        userService.registerUser(object).then((value) {
+                        await _userService.registerUser(object).then((value) {
                           SnackBar snackBar = CustomSnackbar()
                               .displaySnacbar(value[0], value[1]);
                           ScaffoldMessenger.of(context)
@@ -241,24 +245,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           }
                         });
                       } on Exception catch (e) {
-                        final snackbar = SnackBar(
-                          /// need to set following properties for best effect of awesome_snackbar_content
-                          elevation: 0,
-                          backgroundColor: Colors.transparent,
-                          behavior: SnackBarBehavior.floating,
-                          content: AwesomeSnackbarContent(
-                            title: '',
-                            message: e.toString(),
+                        SnackBar snackBar =
+                            CustomSnackbar().displaySnacbar(0, e.toString());
 
-                            /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-                            contentType: ContentType.failure,
-                            // to configure for material banner
-                          ),
-                        );
-
+                        // ignore: use_build_context_synchronously
                         ScaffoldMessenger.of(context)
                           ..hideCurrentSnackBar()
-                          ..showSnackBar(snackbar);
+                          ..showSnackBar(snackBar);
                       }
                     }),
 

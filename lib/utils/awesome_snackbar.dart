@@ -5,12 +5,19 @@ class CustomSnackbar {
   late ContentType snackbarContent;
 
   SnackBar displaySnacbar(int statusCode, String message) {
-    if (statusCode == 201) {
-      snackbarContent = ContentType.success;
-    } else if (statusCode == 400) {
-      snackbarContent = ContentType.warning;
-    } else {
-      snackbarContent = ContentType.failure;
+    switch (statusCode) {
+      case 200:
+      case 201:
+      case 202:
+        snackbarContent = ContentType.success;
+
+      case 400:
+      case 403:
+      case 431:
+        snackbarContent = ContentType.warning;
+
+      default:
+        snackbarContent = ContentType.failure;
     }
 
     final snackbar = SnackBar(

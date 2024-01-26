@@ -21,19 +21,19 @@ class RegisterUserRequest {
   }
 }
 
-class RegisterUserResponse {
-  String? success;
-  String? error;
+// -------- Login User ----------//
 
-  RegisterUserResponse({required this.success, required this.error});
+class LoginUserRequest {
+  final String username;
+  final String password;
 
-  static fromJson(Map<String, dynamic> json) {
-    RegisterUserResponse response =
-        RegisterUserResponse(success: json["Success"], error: json["Error"]);
+  const LoginUserRequest({required this.username, required this.password});
 
-    return response;
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> map = {
+      'username': username,
+      'password': password,
+    };
+    return map;
   }
 }
-
-// -------- Register User ----------//
-

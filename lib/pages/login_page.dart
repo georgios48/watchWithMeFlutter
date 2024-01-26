@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:watch_with_me/components/rounded_button.dart';
+import 'package:watch_with_me/models/user_model.dart';
+import 'package:watch_with_me/pages/main_page.dart';
 import 'package:watch_with_me/pages/register_screen.dart';
+import 'package:watch_with_me/servicesAPI/user_service.dart';
+import 'package:watch_with_me/utils/awesome_snackbar.dart';
 import 'package:watch_with_me/utils/constants.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -12,6 +16,9 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  // user service
+  final _userService = UserService();
+
   // TextFields controllers
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -89,6 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: TextField(
                     controller: _usernameController,
                     decoration: InputDecoration(
+                        errorText: "Required field",
                         filled: true,
                         fillColor: whitePrimary,
                         border: OutlineInputBorder(
@@ -123,6 +131,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     obscureText: true,
                     controller: _passwordController,
                     decoration: InputDecoration(
+                        errorText: "Required field",
                         filled: true,
                         fillColor: whitePrimary,
                         border: OutlineInputBorder(
@@ -137,7 +146,38 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(height: deviceHeight * 0.10),
 
                 RoundedButton(
-                    text: "Sign Up", color: orangePrimary, press: () {}),
+                    text: "Sign Up",
+                    color: orangePrimary,
+                    press: () async {
+                      // login user func
+                      LoginUserRequest object = LoginUserRequest(
+                          username: _usernameController.text,
+                          password: _passwordController.text);
+                      try {
+                        await _userService.loginUser(object).then((value) {
+                          SnackBar snackBar = CustomSnackbar()
+                              .displaySnacbar(value[0], value[1]);
+                          ScaffoldMessenger.of(context)
+                            ..hideCurrentSnackBar()
+                            ..showSnackBar(snackBar);
+
+                          if (value[0] == 202) {
+                            Future.delayed(const Duration(seconds: 5));
+                            Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                    builder: (_) => const MainPage()));
+                          }
+                        });
+                      } on Exception catch (e) {
+                        SnackBar snackBar =
+                            CustomSnackbar().displaySnacbar(0, e.toString());
+
+                        // ignore: use_build_context_synchronously
+                        ScaffoldMessenger.of(context)
+                          ..hideCurrentSnackBar()
+                          ..showSnackBar(snackBar);
+                      }
+                    }),
 
                 // OR
                 Row(children: <Widget>[
