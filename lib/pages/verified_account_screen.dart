@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:watch_with_me/components/rounded_button.dart';
+import 'package:watch_with_me/pages/main_page.dart';
 import 'package:watch_with_me/utils/constants.dart';
 
 class VerifiedAccount extends StatefulWidget {
@@ -51,7 +52,17 @@ class _VerifiedAccountState extends State<VerifiedAccount> {
                     children: [Image.asset('assets/doneIcon.png')]),
                 SizedBox(height: deviceHeight * 0.2),
                 RoundedButton(
-                    text: "Get Started", color: orangePrimary, press: () {}),
+                    text: "Get Started",
+                    color: orangePrimary,
+                    press: () {
+                      // removes all previous pages
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const MainPage()),
+                        (Route<dynamic> route) => false,
+                      );
+                    }),
               ],
             ),
           ),

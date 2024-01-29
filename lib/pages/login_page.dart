@@ -96,7 +96,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: TextField(
                     controller: _usernameController,
                     decoration: InputDecoration(
-                        errorText: "Required field",
                         filled: true,
                         fillColor: whitePrimary,
                         border: OutlineInputBorder(
@@ -131,7 +130,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     obscureText: true,
                     controller: _passwordController,
                     decoration: InputDecoration(
-                        errorText: "Required field",
                         filled: true,
                         fillColor: whitePrimary,
                         border: OutlineInputBorder(
@@ -163,9 +161,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
                           if (value[0] == 202) {
                             Future.delayed(const Duration(seconds: 5));
-                            Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(
-                                    builder: (_) => const MainPage()));
+
+                            // removes all previous pages
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const MainPage()),
+                              (Route<dynamic> route) => false,
+                            );
                           }
                         });
                       } on Exception catch (e) {

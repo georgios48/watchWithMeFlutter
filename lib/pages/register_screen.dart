@@ -97,7 +97,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   child: TextField(
                     controller: _emailController,
                     decoration: InputDecoration(
-                        errorText: "Required field",
                         filled: true,
                         fillColor: whitePrimary,
                         border: OutlineInputBorder(
@@ -133,7 +132,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     child: TextField(
                       controller: _usernameController,
                       decoration: InputDecoration(
-                          errorText: "Required field",
                           filled: true,
                           fillColor: whitePrimary,
                           border: OutlineInputBorder(
@@ -169,7 +167,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     obscureText: true,
                     controller: _passwordController,
                     decoration: InputDecoration(
-                        errorText: "Required field",
                         filled: true,
                         fillColor: whitePrimary,
                         border: OutlineInputBorder(
@@ -204,7 +201,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     obscureText: true,
                     controller: _confirmPasswordController,
                     decoration: InputDecoration(
-                        errorText: "Required field",
                         filled: true,
                         fillColor: whitePrimary,
                         border: OutlineInputBorder(
@@ -239,9 +235,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                           if (value[0] == 201) {
                             Future.delayed(const Duration(seconds: 5));
-                            Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(
-                                    builder: (_) => const VerifyingAccount()));
+
+                            // removes all previous pages
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => VerifyingAccount(
+                                      usernameFromRegister:
+                                          _usernameController.text)),
+                              (Route<dynamic> route) => false,
+                            );
                           }
                         });
                       } on Exception catch (e) {
