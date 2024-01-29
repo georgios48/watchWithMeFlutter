@@ -83,4 +83,41 @@ class UserService {
       rethrow;
     }
   }
+
+  Future<List> getUserActivationStatus(String username) async {
+    final parseURL = "${userRoutes.userRegistrationURL}?username=$username";
+    bool status = false;
+    while (!status) {
+      try {
+        final response = await http.get(Uri.parse(parseURL),
+            headers: {'Content-Type': 'application/json; charset=UTF-8'});
+
+        switch (response.statusCode) {
+          case 200:
+            status = jsonDecode(response.body)["is_active"];
+
+            if (status) {
+              return [response.statusCode, status];
+            }
+
+          case 404:
+            String message = jsonDecode(response.body)["Error"];
+            return [
+              response.statusCode,
+              "$message Please contact the support in order to solve this issue."
+            ];
+
+          default:
+            throw Exception(response.reasonPhrase);
+        }
+      } on SocketException {
+        throw Exception("No internet connection");
+      } on TimeoutException catch (e) {
+        throw Exception("Connection timeout: ${e.message} ");
+      }
+
+      await Future.delayed(const Duration(seconds: 2));
+    }
+    throw Exception("Unexpected error occured");
+  }
 }
