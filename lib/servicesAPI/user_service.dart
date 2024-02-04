@@ -5,13 +5,10 @@ import 'package:http/http.dart' as http;
 import 'package:watch_with_me/models/user_model.dart';
 import 'package:watch_with_me/servicesAPI/routes.dart';
 import 'package:watch_with_me/sharedPreferences/shared_preferences.dart';
-import 'package:watch_with_me/utils/awesome_snackbar.dart';
 
 class UserService {
   UserRoutes userRoutes = UserRoutes();
   final _preferencesService = WatchSharedPreferences();
-
-  CustomSnackbar customSnackbar = CustomSnackbar();
 
   Future<List> registerUser(RegisterUserRequest postBody) async {
     try {
@@ -53,7 +50,9 @@ class UserService {
         case 202: // created
           final data = jsonDecode(response.body);
 
-          _preferencesService.savePreferences(data["username"], data["token"]);
+          await _preferencesService.removeAllPreferences();
+          await _preferencesService.savePreferences(
+              data["username"], data["token"]);
           return [response.statusCode, ""];
 
         case 400: // password does not match
