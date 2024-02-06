@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:watch_with_me/components/rounded_button.dart';
+import 'package:watch_with_me/models/room_model.dart';
+import 'package:watch_with_me/pages/main_page.dart';
+import 'package:watch_with_me/providers/room_provider.dart';
+import 'package:watch_with_me/servicesAPI/room_service.dart';
 import 'package:watch_with_me/utils/constants.dart';
 
-class CreateRoomScreen extends StatefulWidget {
+import '../../utils/awesome_snackbar.dart';
+
+class CreateRoomScreen extends ConsumerWidget {
   const CreateRoomScreen({super.key});
 
   @override
-  State<CreateRoomScreen> createState() => _CreateRoomScreenState();
-}
+  Widget build(BuildContext context, ref) {
+    final roomNameTextController = TextEditingController();
+    final roomPasswordController = TextEditingController();
+    final roomService = RoomService();
 
-class _CreateRoomScreenState extends State<CreateRoomScreen> {
-  final _roomNameTextController = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
     // UI screen size
     Size size = MediaQuery.of(context).size;
 
@@ -68,7 +72,7 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.85,
                 child: TextField(
-                  controller: _roomNameTextController,
+                  controller: roomNameTextController,
                   decoration: InputDecoration(
                       filled: true,
                       fillColor: whitePrimary,
@@ -97,10 +101,9 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
 
               // password textField
               SizedBox(
-                // TODO: create a validator for password. empty string is not considered as null in the backend
                 width: MediaQuery.of(context).size.width * 0.85,
                 child: TextField(
-                  controller: _roomNameTextController,
+                  controller: roomPasswordController,
                   decoration: InputDecoration(
                       filled: true,
                       fillColor: whitePrimary,
@@ -116,7 +119,47 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
               SizedBox(height: deviceHeight * 0.07),
 
               RoundedButton(
-                  text: "Create room", color: orangePrimary, press: () {})
+                  text: "Create room",
+                  color: orangePrimary,
+                  press: () async {
+                    RoomModelRequest roomObject = RoomModelRequest(
+                        roomName: roomNameTextController.text,
+                        roomPassword: roomPasswordController.text);
+                    try {
+                      await roomService.createRoom(roomObject).then((value) {
+                        SnackBar snackBar =
+                            CustomSnackbar().displaySnacbar(value[0], value[1]);
+                        ScaffoldMessenger.of(context)
+                          ..hideCurrentSnackBar()
+                          ..showSnackBar(snackBar);
+
+                        if (value[0] == 201) {
+                          Future.delayed(const Duration(seconds: 2));
+
+                          // refresh the state of roomProvider
+                          ref.invalidate(roomDataProvider);
+                          ref.read(roomDataProvider);
+
+                          Future.delayed(const Duration(seconds: 3));
+                          // removes all previous pages
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const MainPage()),
+                            (Route<dynamic> route) => false,
+                          );
+                        }
+                      });
+                    } on Exception catch (e) {
+                      SnackBar snackBar =
+                          CustomSnackbar().displaySnacbar(0, e.toString());
+
+                      // ignore: use_build_context_synchronously
+                      ScaffoldMessenger.of(context)
+                        ..hideCurrentSnackBar()
+                        ..showSnackBar(snackBar);
+                    }
+                  })
             ],
           ),
         ),

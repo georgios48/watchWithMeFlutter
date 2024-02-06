@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:watch_with_me/pages/landing_screen.dart';
-import 'package:watch_with_me/pages/verified_account_screen.dart';
+import 'package:watch_with_me/pages/user/verified_account_screen.dart';
 import 'package:watch_with_me/servicesAPI/user_service.dart';
 import 'package:watch_with_me/utils/awesome_snackbar.dart';
 import 'package:watch_with_me/utils/constants.dart';

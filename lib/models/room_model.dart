@@ -1,15 +1,27 @@
-class RoomModel {
+class RoomModelResponse {
   String uniqueID;
   int ownerID;
   String roomName;
 
-  RoomModel(
+  RoomModelResponse(
       {required this.uniqueID, required this.ownerID, required this.roomName});
 
-  factory RoomModel.fromJson(Map<String, dynamic> json) {
-    return RoomModel(
+  factory RoomModelResponse.fromJson(Map<String, dynamic> json) {
+    return RoomModelResponse(
         uniqueID: json['unique_id'],
         ownerID: json["owner_id"],
         roomName: json["name"]);
+  }
+}
+
+class RoomModelRequest {
+  String? roomName;
+  String? roomPassword;
+
+  RoomModelRequest({this.roomName, this.roomPassword});
+
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> map = {'name': roomName, 'password': roomPassword};
+    return map;
   }
 }
