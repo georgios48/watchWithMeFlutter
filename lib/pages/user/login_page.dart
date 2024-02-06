@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:watch_with_me/components/rounded_button.dart';
 import 'package:watch_with_me/models/user_model.dart';
 import 'package:watch_with_me/pages/main_page.dart';
-import 'package:watch_with_me/pages/register_screen.dart';
+import 'package:watch_with_me/pages/user/register_screen.dart';
 import 'package:watch_with_me/servicesAPI/user_service.dart';
 import 'package:watch_with_me/utils/awesome_snackbar.dart';
 import 'package:watch_with_me/utils/constants.dart';

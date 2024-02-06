@@ -13,7 +13,49 @@ class RoomService {
 
   final _preferencesService = WatchSharedPreferences();
 
-  Future<List<RoomModel>> getUserRooms() async {
+  Future<List> createRoom(RoomModelRequest postBody) async {
+    if (postBody.roomPassword!.trim().isEmpty) {
+      postBody.roomPassword = null;
+    }
+
+    if (postBody.roomName!.trim().isEmpty) {
+      postBody.roomName = null;
+    }
+
+    try {
+      final userData = await _preferencesService.getPreferences();
+
+      final response = await http.post(Uri.parse(roomRoutes.roomsURL),
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Token ${userData.token}'
+          },
+          body: jsonEncode(postBody.toJson()));
+
+      switch (response.statusCode) {
+        case 201:
+          final data = jsonDecode(response.body);
+          return [response.statusCode, data["Success"]];
+
+        case 400:
+        case 404:
+          final data = jsonDecode(response.body);
+          return [response.statusCode, data["Error"]];
+
+        case 500:
+        default:
+          throw Exception(response.reasonPhrase);
+      }
+    } on SocketException {
+      throw Exception("No internet connection");
+    } on TimeoutException catch (e) {
+      throw Exception("Connection timeout: ${e.message} ");
+    } on Exception {
+      rethrow;
+    }
+  }
+
+  Future<List<RoomModelResponse>> getUserRooms() async {
     try {
       final userData = await _preferencesService.getPreferences();
 
@@ -26,14 +68,11 @@ class RoomService {
       switch (response.statusCode) {
         case 200:
           Iterable json = jsonDecode(response.body);
-          return json.map((room) => RoomModel.fromJson(room)).toList();
+          return json.map((room) => RoomModelResponse.fromJson(room)).toList();
 
         case 400:
-          throw Exception(response.body);
         case 404:
-          throw Exception(response.body);
         case 500:
-          throw Exception(response.body);
         case 406:
           throw Exception(response.body);
         default:

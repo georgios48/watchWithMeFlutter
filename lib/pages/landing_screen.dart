@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:watch_with_me/components/rounded_button.dart';
-import 'package:watch_with_me/pages/login_page.dart';
-import 'package:watch_with_me/pages/register_screen.dart';
+import 'package:watch_with_me/pages/user/login_page.dart';
+import 'package:watch_with_me/pages/user/register_screen.dart';
 import 'package:watch_with_me/utils/constants.dart';
 
 class LandingScreen extends StatefulWidget {

@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:watch_with_me/models/room_model.dart';
 import 'package:watch_with_me/providers/room_provider.dart';
-import 'package:watch_with_me/pages/create_room_page.dart';
+import 'package:watch_with_me/pages/room/create_room_page.dart';
 import 'package:watch_with_me/utils/constants.dart';
 
 class MainPage extends ConsumerWidget {
@@ -27,7 +27,8 @@ class MainPage extends ConsumerWidget {
         backgroundColor: bluePrimary,
         body: data.when(
             data: (data) {
-              List<RoomModel> roomList = data.map((room) => room).toList();
+              List<RoomModelResponse> roomList =
+                  data.map((room) => room).toList();
               return SafeArea(
                   child: Container(
                 padding:
@@ -194,11 +195,11 @@ class MainPage extends ConsumerWidget {
                                     onTap: () {},
                                   ),
                                   Positioned(
-                                      bottom: 45,
+                                      bottom: 35,
                                       left: 12,
                                       child: Text(roomList[index].roomName)),
                                   Positioned(
-                                      bottom: 25,
+                                      bottom: 15,
                                       left: 12,
                                       child: GestureDetector(
                                         onTap: () {

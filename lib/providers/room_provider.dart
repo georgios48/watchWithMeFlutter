@@ -4,6 +4,6 @@ import 'package:watch_with_me/servicesAPI/room_service.dart';
 
 // showing loading, error and data automatically <3
 // object's state is being watched
-final roomDataProvider = FutureProvider<List<RoomModel>>((ref) async {
+final roomDataProvider = FutureProvider<List<RoomModelResponse>>((ref) async {
   return ref.watch(roomProvider).getUserRooms();
 });
