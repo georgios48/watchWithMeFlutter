@@ -91,4 +91,37 @@ class RoomService {
       rethrow;
     }
   }
+
+  Future<List> joinRoom(JoinRoomRequest postBody) async {
+    final userData = await _preferencesService.getPreferences();
+
+    try {
+      final response = await http.post(Uri.parse(roomRoutes.extendedRoomsURL),
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Authorization': 'Token ${userData.token}'
+          },
+          body: jsonEncode(postBody.toJson()));
+
+      switch (response.statusCode) {
+        case 200:
+          final data = jsonDecode(response.body);
+          return [response.statusCode, data["Success"]];
+        case 404:
+        case 400:
+        case 500:
+          final data = jsonDecode(response.body);
+          return [response.statusCode, data["Error"]];
+
+        default:
+          throw Exception(response.reasonPhrase);
+      }
+    } on SocketException {
+      throw Exception("No internet connection");
+    } on TimeoutException catch (e) {
+      throw Exception("Connection timeout: ${e.message} ");
+    } on Exception {
+      rethrow;
+    }
+  }
 }

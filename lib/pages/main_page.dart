@@ -6,6 +6,8 @@ import 'package:watch_with_me/pages/room/inside_room_page.dart';
 import 'package:watch_with_me/pages/user/detailed_profile_page.dart';
 import 'package:watch_with_me/providers/providers.dart';
 import 'package:watch_with_me/pages/room/create_room_page.dart';
+import 'package:watch_with_me/servicesAPI/room_service.dart';
+import 'package:watch_with_me/utils/awesome_snackbar.dart';
 import 'package:watch_with_me/utils/constants.dart';
 
 class MainPage extends ConsumerWidget {
@@ -16,8 +18,10 @@ class MainPage extends ConsumerWidget {
     // provider
     final roomListData = ref.watch(roomDataProvider);
 
+    final roomService = RoomService();
+
     final roomIDController = TextEditingController();
-    final uniqueIDRoom = TextEditingController();
+    final roomPasswordController = TextEditingController();
 
     // UI screen size
     final size = MediaQuery.of(context).size;
@@ -76,7 +80,7 @@ class MainPage extends ConsumerWidget {
                         child: Text("Watch",
                             style: TextStyle(
                                 fontFamily: 'Chalet',
-                                fontSize: deviceWidth * 0.12,
+                                fontSize: deviceWidth * 0.10,
                                 color: orangePrimary,
                                 fontWeight: FontWeight.w300,
                                 height: deviceHeight * 0.001)),
@@ -86,7 +90,7 @@ class MainPage extends ConsumerWidget {
                         child: Text("With",
                             style: TextStyle(
                                 fontFamily: 'Chalet',
-                                fontSize: deviceWidth * 0.12,
+                                fontSize: deviceWidth * 0.10,
                                 color: whitePrimary,
                                 fontWeight: FontWeight.w300,
                                 height: deviceHeight * 0.001)),
@@ -96,7 +100,7 @@ class MainPage extends ConsumerWidget {
                         child: Text("Me",
                             style: TextStyle(
                                 fontFamily: 'Chalet',
-                                fontSize: deviceWidth * 0.12,
+                                fontSize: deviceWidth * 0.10,
                                 color: orangePrimary,
                                 fontWeight: FontWeight.w300,
                                 height: deviceHeight * 0.001)),
@@ -107,14 +111,14 @@ class MainPage extends ConsumerWidget {
                         child: Text("Join room",
                             style: TextStyle(
                                 fontFamily: 'Chalet',
-                                fontSize: deviceWidth * 0.07,
+                                fontSize: deviceWidth * 0.05,
                                 color: whitePrimary,
                                 fontWeight: FontWeight.w100,
                                 height: deviceHeight * 0.001)),
                       ),
                       SizedBox(height: deviceHeight * 0.008),
 
-                      // email textField
+                      // room ID textField
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.85,
                         child: TextField(
@@ -131,6 +135,27 @@ class MainPage extends ConsumerWidget {
                         ),
                       ),
 
+                      SizedBox(height: deviceHeight * 0.01),
+
+                      // room password textField
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.85,
+                        child: TextField(
+                          obscureText: true,
+                          controller: roomPasswordController,
+                          decoration: InputDecoration(
+                              filled: true,
+                              fillColor: whitePrimary,
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: BorderSide.none),
+                              hintText:
+                                  'Leave blank if the room has no password',
+                              hintStyle: const TextStyle(
+                                  color: Color.fromARGB(255, 174, 173, 173))),
+                        ),
+                      ),
+
                       SizedBox(height: deviceHeight * 0.016),
 
                       Align(
@@ -139,8 +164,45 @@ class MainPage extends ConsumerWidget {
                           backgroundColor: orangePrimary,
                           child: const Icon(Icons.arrow_forward_ios_rounded,
                               color: whitePrimary),
-                          onPressed: () {
-                            // TODO: join room functionality
+                          onPressed: () async {
+                            try {
+                              late JoinRoomRequest joinRoomBody;
+                              final passwordText = roomPasswordController.text;
+                              if (passwordText.trim().length > 1) {
+                                joinRoomBody = JoinRoomRequest(
+                                    roomID: roomIDController.text,
+                                    roomPassword: roomPasswordController.text);
+                              } else {
+                                joinRoomBody = JoinRoomRequest(
+                                    roomID: roomIDController.text);
+                              }
+
+                              await roomService
+                                  .joinRoom(joinRoomBody)
+                                  .then((response) {
+                                if (response[0] == 200) {
+                                  // refresh the state of roomProvider
+                                  ref.invalidate(roomDataProvider);
+                                  ref.read(roomDataProvider);
+                                } else {
+                                  SnackBar snackBar = CustomSnackbar()
+                                      .displaySnacbar(0, response[1]);
+
+                                  // ignore: use_build_context_synchronously
+                                  ScaffoldMessenger.of(context)
+                                    ..hideCurrentSnackBar()
+                                    ..showSnackBar(snackBar);
+                                }
+                              });
+                            } on Exception catch (e) {
+                              SnackBar snackBar = CustomSnackbar()
+                                  .displaySnacbar(0, e.toString());
+
+                              // ignore: use_build_context_synchronously
+                              ScaffoldMessenger.of(context)
+                                ..hideCurrentSnackBar()
+                                ..showSnackBar(snackBar);
+                            }
                           },
                         ),
                       ),
@@ -152,7 +214,7 @@ class MainPage extends ConsumerWidget {
                         child: Text("My rooms",
                             style: TextStyle(
                                 fontFamily: 'Chalet',
-                                fontSize: deviceWidth * 0.07,
+                                fontSize: deviceWidth * 0.05,
                                 color: whitePrimary,
                                 fontWeight: FontWeight.w100,
                                 height: deviceHeight * 0.001)),
@@ -219,6 +281,8 @@ class MainPage extends ConsumerWidget {
                                       left: 12,
                                       child: GestureDetector(
                                         onTap: () {
+                                          final uniqueIDRoom =
+                                              TextEditingController();
                                           uniqueIDRoom.text =
                                               roomList[index].uniqueID;
                                           Clipboard.setData(ClipboardData(

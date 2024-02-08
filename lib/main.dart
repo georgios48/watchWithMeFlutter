@@ -15,6 +15,7 @@ class MainApp extends StatelessWidget {
     return const ProviderScope(
         child: MaterialApp(
             debugShowCheckedModeBanner: false,
-            home: MainPage())); // TODO: change to SplashScreen()
+            home:
+                SplashScreen())); // TODO: change to SplashScreen() // TODO: fix auto login when valid session
   }
 }
