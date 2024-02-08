@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:watch_with_me/components/rounded_button.dart';
 import 'package:watch_with_me/models/room_model.dart';
 import 'package:watch_with_me/pages/main_page.dart';
-import 'package:watch_with_me/providers/room_provider.dart';
+import 'package:watch_with_me/providers/providers.dart';
 import 'package:watch_with_me/servicesAPI/room_service.dart';
 import 'package:watch_with_me/utils/constants.dart';
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:watch_with_me/components/rounded_button.dart';
-import 'package:watch_with_me/pages/main_page.dart';
+import 'package:watch_with_me/pages/user/login_page.dart';
 import 'package:watch_with_me/utils/constants.dart';
 
 class VerifiedAccount extends StatefulWidget {
@@ -59,7 +59,7 @@ class _VerifiedAccountState extends State<VerifiedAccount> {
                       Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const MainPage()),
+                            builder: (context) => const LoginScreen()),
                         (Route<dynamic> route) => false,
                       );
                     }),

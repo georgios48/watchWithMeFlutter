@@ -37,3 +37,34 @@ class LoginUserRequest {
     return map;
   }
 }
+
+// -------- Account User Data ----------//
+
+class UserAccountDataResponse {
+  final String lastLogin;
+  final String dateOnCreation;
+  final String username;
+  final String email;
+
+  const UserAccountDataResponse(
+      {required this.lastLogin,
+      required this.dateOnCreation,
+      required this.email,
+      required this.username});
+}
+
+class ChangeUserPasswordRequest {
+  final String oldPassword;
+  final String newPassword;
+
+  const ChangeUserPasswordRequest(
+      {required this.newPassword, required this.oldPassword});
+
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> map = {
+      'user_password': oldPassword,
+      'new_password': newPassword,
+    };
+    return map;
+  }
+}

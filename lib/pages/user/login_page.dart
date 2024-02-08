@@ -153,12 +153,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           password: _passwordController.text);
                       try {
                         await _userService.loginUser(object).then((value) {
-                          SnackBar snackBar = CustomSnackbar()
-                              .displaySnacbar(value[0], value[1]);
-                          ScaffoldMessenger.of(context)
-                            ..hideCurrentSnackBar()
-                            ..showSnackBar(snackBar);
-
                           if (value[0] == 202) {
                             Future.delayed(const Duration(seconds: 5));
 
@@ -169,6 +163,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                   builder: (context) => const MainPage()),
                               (Route<dynamic> route) => false,
                             );
+                          } else {
+                            SnackBar snackBar = CustomSnackbar()
+                                .displaySnacbar(value[0], value[1]);
+                            ScaffoldMessenger.of(context)
+                              ..hideCurrentSnackBar()
+                              ..showSnackBar(snackBar);
                           }
                         });
                       } on Exception catch (e) {

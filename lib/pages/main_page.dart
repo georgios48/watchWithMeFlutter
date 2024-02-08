@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:watch_with_me/models/room_model.dart';
-import 'package:watch_with_me/providers/room_provider.dart';
+import 'package:watch_with_me/pages/room/inside_room_page.dart';
+import 'package:watch_with_me/pages/user/detailed_profile_page.dart';
+import 'package:watch_with_me/providers/providers.dart';
 import 'package:watch_with_me/pages/room/create_room_page.dart';
 import 'package:watch_with_me/utils/constants.dart';
 
@@ -12,7 +14,7 @@ class MainPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     // provider
-    final data = ref.watch(roomDataProvider);
+    final roomListData = ref.watch(roomDataProvider);
 
     final roomIDController = TextEditingController();
     final uniqueIDRoom = TextEditingController();
@@ -25,7 +27,7 @@ class MainPage extends ConsumerWidget {
 
     return Scaffold(
         backgroundColor: bluePrimary,
-        body: data.when(
+        body: roomListData.when(
             data: (data) {
               List<RoomModelResponse> roomList =
                   data.map((room) => room).toList();
@@ -43,7 +45,13 @@ class MainPage extends ConsumerWidget {
                             iconSize: deviceWidth * 0.09,
                             icon: const Icon(Icons.person_outline,
                                 color: orangePrimary),
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const DetailedProfilePage()));
+                            },
                           ),
                           IconButton(
                             icon: const Icon(
@@ -131,7 +139,9 @@ class MainPage extends ConsumerWidget {
                           backgroundColor: orangePrimary,
                           child: const Icon(Icons.arrow_forward_ios_rounded,
                               color: whitePrimary),
-                          onPressed: () {},
+                          onPressed: () {
+                            // TODO: join room functionality
+                          },
                         ),
                       ),
 
@@ -192,7 +202,13 @@ class MainPage extends ConsumerWidget {
                                       child: Image.asset(
                                           "assets/watchWithMeLogo.png"),
                                     ),
-                                    onTap: () {},
+                                    onTap: () {
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  InsideRoomPage(
+                                                      room: roomList[index])));
+                                    },
                                   ),
                                   Positioned(
                                       bottom: 35,
