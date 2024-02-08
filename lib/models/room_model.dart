@@ -25,3 +25,16 @@ class RoomModelRequest {
     return map;
   }
 }
+
+// -- Join and Leave room models -- //
+class JoinRoomRequest {
+  String roomID;
+  String? roomPassword;
+
+  JoinRoomRequest({required this.roomID, this.roomPassword});
+
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> map = {'room': roomID, 'password': roomPassword};
+    return map;
+  }
+}
