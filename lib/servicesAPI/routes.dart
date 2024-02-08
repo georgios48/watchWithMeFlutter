@@ -5,6 +5,8 @@ class UserRoutes {
   final userRegistrationURL = "$_baseURL/user/register";
   final userLoginURL = "$_baseURL/login";
   final resendActivationEmailURL = "$_baseURL/user/resend_email";
+  final userAccountURL = "$_baseURL/account";
+  final logoutUserURL = "$_baseURL/logout";
 }
 
 class RoomRoutes {

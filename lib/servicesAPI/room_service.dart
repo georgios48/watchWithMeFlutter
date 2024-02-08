@@ -8,6 +8,11 @@ import 'package:watch_with_me/servicesAPI/routes.dart';
 import 'package:watch_with_me/sharedPreferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
+// entry port for data, used to manage states. Creates shared state.
+// the ref is more like a context for the Riverpod. Returns a func (can be a simple value or widget instead)
+// kinda like dependency injection
+final roomProvider = Provider<RoomService>((ref) => RoomService());
+
 class RoomService {
   RoomRoutes roomRoutes = RoomRoutes();
 
@@ -87,8 +92,3 @@ class RoomService {
     }
   }
 }
-
-// entry port for data, used to manage states. Creates shared state.
-// the ref is more like a context for the Riverpod. Returns a func (can be a simple value or widget instead)
-// kinda like dependency injection
-final roomProvider = Provider<RoomService>((ref) => RoomService());

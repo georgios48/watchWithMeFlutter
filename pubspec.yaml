@@ -46,6 +46,7 @@ flutter:
     - assets/facebook_logo.png
     - assets/gmail_logo.png
     - assets/doneIcon.png
+    - assets/edit.png
 
   fonts:
     - family: Chalet

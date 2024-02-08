@@ -23,5 +23,4 @@ class WatchSharedPreferences {
 
     await preferences.clear();
   }
-  // TODO: add delete sessions for logging out
 }
