@@ -149,7 +149,8 @@ class UserAccountService {
               lastLogin: data["last_login"],
               dateOnCreation: data["date_joined"],
               email: data["email"],
-              username: data["username"]);
+              username: data["username"],
+              id: data["id"]);
         case 400:
         case 404:
         case 500:

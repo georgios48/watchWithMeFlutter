@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:watch_with_me/pages/landing_screen.dart';
+import 'package:watch_with_me/utils/constants.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -9,8 +10,8 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin {
-
+class _SplashScreenState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin {
   // on init of the screen
   @override
   void initState() {
@@ -20,7 +21,8 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
 
     // how long the screen is visible
     Future.delayed(const Duration(seconds: 3), () {
-      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => const LandingScreen()));
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (_) => const LandingScreen()));
     });
   }
 
@@ -28,24 +30,24 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   @override
   void dispose() {
     // enables the top and bottom bar
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+        overlays: SystemUiOverlay.values);
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    // UI screen size
+    final size = MediaQuery.of(context).size;
+    double deviceWidth = size.width;
+
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        decoration: const BoxDecoration(
-          color:  Color(0xFFDF862D)
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+      backgroundColor: orangePrimary,
+      body: SizedBox(
+        width: deviceWidth,
+        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           Image.asset("assets/watchWithMeLogo.png"),
-        ]
-        ),
+        ]),
       ),
     );
   }

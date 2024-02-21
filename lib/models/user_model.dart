@@ -45,12 +45,14 @@ class UserAccountDataResponse {
   final String dateOnCreation;
   final String username;
   final String email;
+  final int id;
 
   const UserAccountDataResponse(
       {required this.lastLogin,
       required this.dateOnCreation,
       required this.email,
-      required this.username});
+      required this.username,
+      required this.id});
 }
 
 class ChangeUserPasswordRequest {

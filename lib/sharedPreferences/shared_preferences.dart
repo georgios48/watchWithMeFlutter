@@ -9,6 +9,12 @@ class WatchSharedPreferences {
     await preferences.setString(username, token);
   }
 
+  Future saveUserID(int userID) async {
+    final SharedPreferences preferences = await SharedPreferences.getInstance();
+
+    await preferences.setInt(('userID'), userID);
+  }
+
   Future<Preferences> getPreferences() async {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
 
