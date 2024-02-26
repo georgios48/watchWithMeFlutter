@@ -15,7 +15,7 @@ class RegisterUserRequest {
       'username': username,
       'email': email,
       'password': password,
-      'password check': confirmPassword
+      'password_check': confirmPassword
     };
     return map;
   }

@@ -154,7 +154,8 @@ class UserAccountService {
         case 400:
         case 404:
         case 500:
-          throw Exception(response.body);
+          final data = jsonDecode(response.body);
+          throw Exception(data['Error']);
         default:
           throw Exception(response.reasonPhrase);
       }

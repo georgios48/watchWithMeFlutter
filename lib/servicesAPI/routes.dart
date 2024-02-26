@@ -13,3 +13,7 @@ class RoomRoutes {
   final roomsURL = "$_baseURL/room";
   final extendedRoomsURL = "$_baseURL/room/extended_view";
 }
+
+class WebSocketRoutes {
+  final getPreviousMessagesURL = "$_baseURL/chat";
+}

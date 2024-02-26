@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 //import 'package:watch_with_me/components/blurry_dialog_with_thumbnail_image.dart';
 import 'package:watch_with_me/models/room_model.dart';
-import 'package:watch_with_me/pages/room/test_page.dart';
+import 'package:watch_with_me/pages/room/chat_expanded_page.dart';
 import 'package:watch_with_me/utils/constants.dart';
-import 'package:web_socket_channel/io.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
 //import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class InsideRoomPage extends StatefulWidget {
@@ -25,14 +23,6 @@ class InsideRoomPage extends StatefulWidget {
 class _InsideRoomPageState extends State<InsideRoomPage> {
   // late YoutubePlayerController youtubePlayerController;
   final _youtubeLinkController = TextEditingController();
-  final List<String> _messages = [];
-  late WebSocketChannel _channel;
-
-  void _sendMessage(String message) {
-    if (message.isNotEmpty) {
-      _channel.sink.add(message);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -102,12 +92,16 @@ class _InsideRoomPageState extends State<InsideRoomPage> {
                 TextButton(
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => ChatScreen(room: widget.room)));
+                          builder: (context) => ChatExpandedPage(
+                                room: widget.room,
+                                deviceWidth: widget.deviceWidth,
+                                deviceHeight: widget.deviceHeight,
+                              )));
                     },
                     child: Text(
                       "Chat",
                       style: TextStyle(color: whitePrimary),
-                    ))
+                    )),
 
                 // Chat button, to be used - TODO
                 // Align(
