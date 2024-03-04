@@ -87,7 +87,7 @@ class _ChatExpandedPageState extends State<ChatExpandedPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_scrollController.hasClients) {
         _scrollController.animateTo(
-          _scrollController.position.maxScrollExtent,
+          _scrollController.position.maxScrollExtent + 40,
           duration: const Duration(milliseconds: 300),
           curve: Curves.easeOut,
         );
