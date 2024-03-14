@@ -16,6 +16,9 @@ class MainApp extends StatelessWidget {
         child: MaterialApp(
             debugShowCheckedModeBanner: false,
             home:
-                SplashScreen())); // TODO: change to SplashScreen() // TODO: fix auto login when valid session
+                // TODO: change to SplashScreen()
+                // TODO: fix auto login when valid session
+                // TODO: fix app launch icon
+                SplashScreen()));
   }
 }

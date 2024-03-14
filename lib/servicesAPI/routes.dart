@@ -1,5 +1,5 @@
-// TODO: to be changed if needed
-const _baseURL = "http://192.168.63.14:8000/";
+// to be changed if needed
+const _baseURL = "http://192.168.0.145:8000";
 
 class UserRoutes {
   final userRegistrationURL = "$_baseURL/user/register";
@@ -12,4 +12,8 @@ class UserRoutes {
 class RoomRoutes {
   final roomsURL = "$_baseURL/room";
   final extendedRoomsURL = "$_baseURL/room/extended_view";
+}
+
+class WebSocketRoutes {
+  final getPreviousMessagesURL = "$_baseURL/chat";
 }

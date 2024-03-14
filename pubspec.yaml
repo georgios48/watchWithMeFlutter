@@ -18,6 +18,10 @@ dependencies:
   flutter_launcher_icons: ^0.13.1
   after_layout: ^1.2.0
   riverpod: ^2.4.9
+  web_socket_channel: ^2.4.0
+  hooks_riverpod: ^2.5.1
+  flutter_hooks: ^0.20.5
+  #youtube_player_flutter: ^8.1.2
 
 dev_dependencies:
   flutter_test:

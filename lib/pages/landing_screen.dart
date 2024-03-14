@@ -42,7 +42,7 @@ class _LandingScreenState extends State<LandingScreen> {
                     style: TextStyle(
                         fontFamily: 'Chalet',
                         fontSize: deviceWidth * 0.10,
-                        height: deviceHeight * 0.001),
+                        height: 1),
                   ),
 
                   SizedBox(height: deviceHeight * 0.12),
@@ -56,11 +56,11 @@ class _LandingScreenState extends State<LandingScreen> {
                           height: deviceHeight * 0.001)),
                   Text("With",
                       style: TextStyle(
-                          fontFamily: 'Chalet',
-                          fontSize: deviceWidth * 0.15,
-                          color: bluePrimary,
-                          fontWeight: FontWeight.w100,
-                          height: deviceHeight * 0.001)),
+                        fontFamily: 'Chalet',
+                        fontSize: deviceWidth * 0.15,
+                        color: bluePrimary,
+                        fontWeight: FontWeight.w100,
+                      )),
                   Text("Me",
                       style: TextStyle(
                           fontFamily: 'Chalet',

@@ -15,7 +15,7 @@ class RegisterUserRequest {
       'username': username,
       'email': email,
       'password': password,
-      'password check': confirmPassword
+      'password_check': confirmPassword
     };
     return map;
   }
@@ -45,12 +45,14 @@ class UserAccountDataResponse {
   final String dateOnCreation;
   final String username;
   final String email;
+  final int id;
 
   const UserAccountDataResponse(
       {required this.lastLogin,
       required this.dateOnCreation,
       required this.email,
-      required this.username});
+      required this.username,
+      required this.id});
 }
 
 class ChangeUserPasswordRequest {

@@ -72,7 +72,6 @@ class _VerifyingAccountState extends State<VerifyingAccount>
                 Text(
                   "account",
                   style: TextStyle(
-                      height: deviceHeight * 0.001,
                       fontFamily: 'Chalet',
                       fontSize: deviceWidth * 0.12,
                       color: whitePrimary,
