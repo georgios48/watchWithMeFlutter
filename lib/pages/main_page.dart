@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:watch_with_me/models/room_model.dart';
 import 'package:watch_with_me/pages/room/inside_room_page.dart';
 import 'package:watch_with_me/pages/user/detailed_profile_page.dart';
@@ -10,7 +11,7 @@ import 'package:watch_with_me/servicesAPI/room_service.dart';
 import 'package:watch_with_me/utils/awesome_snackbar.dart';
 import 'package:watch_with_me/utils/constants.dart';
 
-class MainPage extends ConsumerWidget {
+class MainPage extends HookConsumerWidget {
   const MainPage({super.key});
 
   @override
@@ -20,8 +21,8 @@ class MainPage extends ConsumerWidget {
 
     final roomService = RoomService();
 
-    final roomIDController = TextEditingController();
-    final roomPasswordController = TextEditingController();
+    final roomIDController = useTextEditingController();
+    final roomPasswordController = useTextEditingController();
 
     // UI screen size
     final size = MediaQuery.of(context).size;

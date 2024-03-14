@@ -19,6 +19,6 @@ class MainApp extends StatelessWidget {
                 // TODO: change to SplashScreen()
                 // TODO: fix auto login when valid session
                 // TODO: fix app launch icon
-                MainPage()));
+                SplashScreen()));
   }
 }

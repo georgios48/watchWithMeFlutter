@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:watch_with_me/models/message_model.dart';
 //import 'package:watch_with_me/components/blurry_dialog_with_thumbnail_image.dart';
 import 'package:watch_with_me/models/room_model.dart';
-import 'package:watch_with_me/pages/room/test.dart';
 import 'package:watch_with_me/servicesAPI/weboscket_service.dart';
 import 'package:watch_with_me/sharedPreferences/shared_preferences.dart';
 import 'package:watch_with_me/utils/awesome_snackbar.dart';
@@ -107,7 +106,7 @@ class _InsideRoomPageState extends State<InsideRoomPage> {
 
     _channel = IOWebSocketChannel.connect(Uri.parse(
             // TODO: To be changed to 'wss', when HTTPS is supported in Django
-            'ws://192.168.0.44:8000/ws/chat_app/${widget.room.uniqueID}/'),
+            'ws://192.168.0.145:8000/ws/chat_app/${widget.room.uniqueID}/'),
         headers: {'Authorization': 'Token ${userData.token}'});
     _channel.stream.listen((message) {
       setState(() {
@@ -167,13 +166,18 @@ class _InsideRoomPageState extends State<InsideRoomPage> {
     }
   }
 
+  void _closeWebSocketConnection() async {
+    await _channel.sink.close();
+  }
+
   @override
   void dispose() {
     // dispose scrollController
     _scrollController.dispose();
 
     // dispose WebSocket (closes)
-    _channel.sink.close();
+    _closeWebSocketConnection();
+
     super.dispose();
   }
 
@@ -182,6 +186,7 @@ class _InsideRoomPageState extends State<InsideRoomPage> {
     return Scaffold(
       backgroundColor: bluePrimary,
       body: SafeArea(
+        bottom: false,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -240,24 +245,6 @@ class _InsideRoomPageState extends State<InsideRoomPage> {
                       )),
                 ),
 
-                SizedBox(height: widget.deviceHeight * 0.01),
-
-                TextButton(
-                    onPressed: () {
-                      // Navigator.of(context).push(MaterialPageRoute(
-                      //     builder: (context) => ChatExpandedPage(
-                      //           room: widget.room,
-                      //           deviceWidth: widget.deviceWidth,
-                      //           deviceHeight: widget.deviceHeight,
-                      //         )));
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => ExpandedContainerDemo()));
-                    },
-                    child: Text(
-                      "Chat",
-                      style: TextStyle(color: whitePrimary),
-                    )),
-
                 // Chat button, to be used - TODO
                 // Align(
                 //   alignment: Alignment.bottomRight,
@@ -274,7 +261,10 @@ class _InsideRoomPageState extends State<InsideRoomPage> {
             // Chat Container
             Expanded(
                 child: Container(
-              color: whitePrimary,
+              decoration: BoxDecoration(
+                color: whitePrimary,
+                borderRadius: BorderRadius.circular(20),
+              ),
               child: _chatBuilder(),
             ))
           ],
@@ -295,28 +285,25 @@ class _InsideRoomPageState extends State<InsideRoomPage> {
                 color: bluePrimary, backgroundColor: whitePrimary)),
       );
     } else {
-      return Hero(
-        tag: 'chatWindow',
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                  controller: _scrollController,
-                  itemCount: _messages.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    final message = _messages[index];
-                    final isCurrentUser =
-                        message.username == _currentUserUsername;
-                    return ListTile(title: _chatRow(isCurrentUser, message));
-                  }),
-            ),
-            const Divider(height: 1.0),
-            _buildTextComposer(),
-            SizedBox(
-              height: widget.deviceHeight * 0.02,
-            )
-          ],
-        ),
+      return Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+                controller: _scrollController,
+                itemCount: _messages.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final message = _messages[index];
+                  final isCurrentUser =
+                      message.username == _currentUserUsername;
+                  return ListTile(title: _chatRow(isCurrentUser, message));
+                }),
+          ),
+          const Divider(height: 1.0),
+          _buildTextComposer(),
+          SizedBox(
+            height: widget.deviceHeight * 0.02,
+          )
+        ],
       );
     }
   }
@@ -326,7 +313,6 @@ class _InsideRoomPageState extends State<InsideRoomPage> {
     return SizedBox(
       width: widget.deviceWidth,
       child: TextField(
-        autofocus: true,
         controller: _textFieldController,
         decoration: InputDecoration(
           border: InputBorder.none,
@@ -355,24 +341,26 @@ class _InsideRoomPageState extends State<InsideRoomPage> {
   Widget _chatRow(bool isCurrentUser, MessageResponse message) {
     // Positions the message depending on if the current user sent it or not
     if (isCurrentUser) {
-      return Wrap(
-        alignment: WrapAlignment.end,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Text(
-                message.username,
-                style: const TextStyle(color: orangePrimary),
-                overflow: TextOverflow.visible,
-              ),
-            ],
-          ),
-          Text(
-            message.message,
-            overflow: TextOverflow.visible,
-          )
-        ],
+      return SingleChildScrollView(
+        child: Wrap(
+          alignment: WrapAlignment.end,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  message.username,
+                  style: const TextStyle(color: orangePrimary),
+                  overflow: TextOverflow.visible,
+                ),
+              ],
+            ),
+            Text(
+              message.message,
+              overflow: TextOverflow.visible,
+            )
+          ],
+        ),
       );
     } else {
       return SingleChildScrollView(
