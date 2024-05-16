@@ -21,7 +21,7 @@ dependencies:
   web_socket_channel: ^2.4.0
   hooks_riverpod: ^2.5.1
   flutter_hooks: ^0.20.5
-  #youtube_player_flutter: ^8.1.2
+  youtube_player_flutter: ^8.1.2
 
 dev_dependencies:
   flutter_test:
